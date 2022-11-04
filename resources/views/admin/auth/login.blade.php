@@ -1,56 +1,64 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('admin.auth.layouts.app')
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+@section('content')
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+        <section class="login_content">
+            <form action="{{ route('admin.login') }}" method="post">
+                @csrf
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                <h1>Login Form</h1>
+                <input type="hidden" name="user_type" value="admin">
+                <div>
+                    <input type="email" class="form-control" name="email" placeholder="Username" required="" />
+                </div>
+                <div>
+                    <input type="password" class="form-control"  id="input-password" name="password" placeholder="Password" required="" />
+                    <div class="form-check" style="text-align: left !important;">
+                        <input class="form-check-input" type="checkbox" id="show-password">
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+                        <label class="form-check-label" for="show-password">
+                            {{ __('Show') }}
+                        </label>
+                    </div>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong style="color:red">{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div>
+                    <button class="btn btn-info btn-sm" style="width:100%">Log in</button>
+                    <a class="reset_pass" href="{{ route('admin.forgot_password') }}">{{ __('Lost your password?') }}</a>
+                    <span class="reset_pass">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        {{ __('Remember Me') }}
+                    </span>
+                </div>
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+                <div class="clearfix"></div>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
+                <div class="separator">
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                    <div class="clearfix"></div>
+                    <br />
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+                    <div>
+                    <h1><i class="fa fa-paw"></i> Green Glow!</h1>
+                    <p>©2022 All Rights Reserved. Green Glow Privacy and Terms</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+        </div>
+    </div>
+@endsection
+@push('js')
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $('#show-password').click(function(){
+                $(this).is(':checked') ? $('#input-password').attr('type', 'text') : $('#input-password').attr('type', 'password');
+            });
+        });
+    </script>
+@endpush

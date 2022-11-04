@@ -6,7 +6,7 @@
         </div>
         <div class="blog-inner">
         <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend/images') }}/blog-img1.jpg"> </a> </div>
+            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend') }}/images/blog-img1.jpg"> </a> </div>
             <div class="blog-preview_info">
             <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
             <ul class="post-meta">
@@ -18,7 +18,7 @@
             <a class="blog-preview_btn" href="blog_single_post.html">READ MORE</a> </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend/images') }}/blog-img3.jpg"> </a> </div>
+            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend') }}/images/blog-img3.jpg"> </a> </div>
             <div class="blog-preview_info">
             <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
             <ul class="post-meta">
@@ -30,7 +30,7 @@
             <a class="blog-preview_btn" href="blog_single_post.html">READ MORE</a> </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
-            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend/images') }}/blog-img2.jpg"> </a> </div>
+            <div class="entry-thumb image-hover2"> <a href="blog_single_post.html"> <img alt="Blog" src="{{ asset('public/frontend') }}/images/blog-img2.jpg"> </a> </div>
             <div class="blog-preview_info">
             <h4 class="blog-preview_title"><a href="blog_single_post.html">Standard blog post with photo</a></h4>
             <ul class="post-meta">

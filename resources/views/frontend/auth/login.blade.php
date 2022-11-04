@@ -1,56 +1,52 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('frontend.layouts.app')
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+@section('content')
+    <!-- Main Container -->
+    <section class="main-container col1-layout">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+            <article class="col-main">
+                <div class="account-login">
+                <div class="page-title">
+                    <h2>Login or Create an Account</h2>
+                </div>
+                <fieldset class="col2-set">
+                    <div class="col-1 new-users"><strong>New Customers</strong>
+                    <div class="content">
+                        <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                        <div class="buttons-set">
+                        <button onclick="window.location='http://demo.magentomagik.com/computerstore/customer/account/create/';" class="button create-account" type="button"><span>Create an Account</span></button>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-2 registered-users"><strong>Registered Customers</strong>
+                    <div class="content">
+                        <p>If you have an account with us, please log in.</p>
+                        <ul class="form-list">
+                        <li>
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="text" title="Email Address" class="input-text required-entry" id="email" value="" name="login[username]">
+                        </li>
+                        <li>
+                            <label for="pass">Password <span class="required">*</span></label>
+                            <input type="password" title="Password" id="pass" class="input-text required-entry validate-password" name="login[password]">
+                        </li>
+                        </ul>
+                        <p class="required">* Required Fields</p>
+                        <div class="buttons-set">
+                        <button id="send2" name="send" type="submit" class="button login"><span>Login</span></button>
+                        <a class="forgot-word" href="http://demo.magentomagik.com/computerstore/customer/account/forgotpassword/">Forgot Your Password?</a> </div>
+                    </div>
+                    </div>
+                </fieldset>
+                </div>
+            </article>
+            <!--	///*///======    End article  ========= //*/// -->
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        </div>
+        </div>
+    </section>
+    <!-- Main Container End -->
+@endsection

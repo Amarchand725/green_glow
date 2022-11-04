@@ -1,33 +1,52 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <!-- css -->
+    @include('admin.layouts.styles')
+    @stack('css')
+    <!-- css -->
+  </head>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- sidebar menu && menu footer buttons -->
+                @include('admin.layouts.sidebar')
+                <!-- /sidebar menu && menu footer buttons -->
+
+            </div>
         </div>
-    </body>
+
+        <!-- top navigation -->
+        @include('admin.layouts.header')
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        @yield('content')
+        <!-- /page content -->
+
+        <!-- footer content -->
+        @include('admin.layouts.footer')
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- script -->
+    @include('admin.layouts.scripts')
+    @stack('js')
+    <!-- script -->
+  </body>
 </html>
