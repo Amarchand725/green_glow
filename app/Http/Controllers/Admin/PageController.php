@@ -85,6 +85,13 @@ class PageController extends Controller
         return redirect()->route('page.index')->with('status', 'Page updated Successfully !');
     }
 
+    public function show($slug)
+    {
+        $model = Page::where('slug', $slug)->first();
+        $page_title = 'Show Details';
+        return view('admin.page.show', compact('model', 'page_title'));
+    }
+
     public function destroy($slug)
     {
         $model = Page::where('slug', $slug)->first();

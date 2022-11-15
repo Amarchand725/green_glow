@@ -7,13 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
-    <meta name="csrf-token" id="token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" id="token" content="<?php echo e(csrf_token()); ?>" />
 
-    <title>@yield('title')</title>
+    <title><?php echo $__env->yieldContent('title'); ?></title>
 
     <!-- css -->
-    @include('admin.layouts.styles')
-    @stack('css')
+    <?php echo $__env->make('admin.layouts.styles', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->yieldPushContent('css'); ?>
     <!-- css -->
   </head>
 
@@ -24,67 +24,67 @@
             <div class="left_col scroll-view">
 
                 <!-- sidebar menu && menu footer buttons -->
-                @include('admin.layouts.sidebar')
+                <?php echo $__env->make('admin.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <!-- /sidebar menu && menu footer buttons -->
 
             </div>
         </div>
 
         <!-- top navigation -->
-        @include('admin.layouts.header')
+        <?php echo $__env->make('admin.layouts.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- /top navigation -->
 
         <!-- page content -->
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
         <!-- /page content -->
 
         <!-- footer content -->
-        @include('admin.layouts.footer')
+        <?php echo $__env->make('admin.layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- /footer content -->
       </div>
     </div>
 
     <!-- script -->
-    @include('admin.layouts.scripts')
-    @stack('js')
+    <?php echo $__env->make('admin.layouts.scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->yieldPushContent('js'); ?>
     <!-- script -->
 
     <script>
-        @if(Session::has('message'))
+        <?php if(Session::has('message')): ?>
             toastr.options =
             {
                 "closeButton" : true,
                 "progressBar" : true
             }
-            toastr.success("{{ session('message') }}");
-        @endif
+            toastr.success("<?php echo e(session('message')); ?>");
+        <?php endif; ?>
 
-        @if(Session::has('error'))
+        <?php if(Session::has('error')): ?>
             toastr.options =
             {
                 "closeButton" : true,
                 "progressBar" : true
             }
-            toastr.error("{{ session('error') }}");
-        @endif
+            toastr.error("<?php echo e(session('error')); ?>");
+        <?php endif; ?>
 
-        @if(Session::has('info'))
+        <?php if(Session::has('info')): ?>
             toastr.options =
             {
                 "closeButton" : true,
                 "progressBar" : true
             }
-            toastr.info("{{ session('info') }}");
-        @endif
+            toastr.info("<?php echo e(session('info')); ?>");
+        <?php endif; ?>
 
-        @if(Session::has('warning'))
+        <?php if(Session::has('warning')): ?>
             toastr.options =
             {
                 "closeButton" : true,
                 "progressBar" : true
             }
-            toastr.warning("{{ session('warning') }}");
-        @endif
+            toastr.warning("<?php echo e(session('warning')); ?>");
+        <?php endif; ?>
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
         });
@@ -102,3 +102,4 @@
     </script>
   </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\green_glow\resources\views/admin/layouts/app.blade.php ENDPATH**/ ?>

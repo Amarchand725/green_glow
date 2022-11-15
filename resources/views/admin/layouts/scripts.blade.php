@@ -38,3 +38,7 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('public/admin') }}/build/js/custom.min.js"></script>
+
+    <script src="{{asset('public/admin/js/toastr.min.js')}}"></script>
+	<script src="{{asset('public/admin/js/search.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

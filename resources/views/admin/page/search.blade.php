@@ -1,11 +1,25 @@
-@foreach($models as $key=>$model)
-    <tr id="id-{{ $model->id }}">
-        <td>{{  $models->firstItem()+$key }}.</td>
-        {index}
+@foreach ($models as $model)
+    <tr>
+        <td>{{ $model->title }}</td>
+        <td>{{ $model->meta_title }}</td>
+        <td>{{ $model->meta_keyword }}</td>
+        <td>{{ $model->meta_description }}</td>
+        <td>
+            @if($model->status)
+                <span class="badge badge-success">Active</span>
+            @else
+                <span class="badge badge-danger">In-Active</span>
+            @endif
+        </td>
+        <td>
+            <a href="{{ route('page.edit', $model->slug) }}" data-toggle="tooltip" data-placement="top" title="Edit Page" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+            <a href="{{ route('page.show', $model->slug) }}" data-toggle="tooltip" data-placement="top" title="Show Page Details" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+            <button class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-placement="top" title="Delete Record" data-slug="{{ $model->slug }}" data-del-url="{{ url('blog', $model->slug) }}"><i class="fa fa-trash"></i></button>
+        </td>
     </tr>
 @endforeach
 <tr>
-    <td colspan="{totalColumns}">
+    <td colspan="9">
         Displying {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} records
         <div class="d-flex justify-content-center">
             {!! $models->links('pagination::bootstrap-4') !!}
@@ -60,7 +74,7 @@
                             $('#id-'+slug).hide();
                             Swal.fire(
                                 'Deleted!',
-                                'Your record has been deleted.',
+                                'Your file has been deleted.',
                                 'success'
                             )
                         }else{

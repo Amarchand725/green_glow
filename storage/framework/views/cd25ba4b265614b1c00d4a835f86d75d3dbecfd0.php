@@ -1,5 +1,5 @@
 <div class="navbar nav_title" style="border: 0;">
-    <a href="{{ route('admin.dashboard') }}" class="site_title">
+    <a href="<?php echo e(route('admin.dashboard')); ?>" class="site_title">
         <i class="fa fa-paw"></i> <span>Green Glow!</span>
     </a>
 </div>
@@ -9,11 +9,11 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
 <div class="profile_pic">
-    <img src="{{ asset('public/admin') }}/images/img.jpg" alt="..." class="img-circle profile_img">
+    <img src="<?php echo e(asset('public/admin')); ?>/images/img.jpg" alt="..." class="img-circle profile_img">
 </div>
 <div class="profile_info">
     <span>Welcome,</span>
-    <h2>{{ Auth::user()->name }}</h2>
+    <h2><?php echo e(Auth::user()->name); ?></h2>
 </div>
 </div>
 <!-- /menu profile quick info -->
@@ -24,19 +24,19 @@
     <div class="menu_section">
       <h3>General</h3>
       <ul class="nav side-menu">
-        <li><a href="{{ route('home') }}" target="_blank"><i class="fa fa-globe"></i> Visit Site</a></li>
+        <li><a href="<?php echo e(route('home')); ?>" target="_blank"><i class="fa fa-globe"></i> Visit Site</a></li>
         <li>
             <a><i class="fa fa-tasks"></i> Menus <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li><a href="{{ route('menu.index') }}">All Menus</a></li>
-                <li><a href="{{ route('menu.create') }}">Add New Menu</a></li>
+                <li><a href="<?php echo e(route('menu.index')); ?>">All Menus</a></li>
+                <li><a href="<?php echo e(route('menu.create')); ?>">Add New Menu</a></li>
             </ul>
         </li>
         <li>
             <a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li><a href="{{ route('page.index') }}">All Pages</a></li>
-                <li><a href="{{ route('page.create') }}">Add New Page</a></li>
+                <li><a href="<?php echo e(route('page.index')); ?>">All Pages</a></li>
+                <li><a href="<?php echo e(route('page.create')); ?>">Add New Page</a></li>
             </ul>
         </li>
         <li>
@@ -142,14 +142,15 @@
     <a data-toggle="tooltip" data-placement="top" title="Lock">
       <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
     </a>
-    <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('admin.logout') }}"
+    <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo e(route('admin.logout')); ?>"
         onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
     </a>
 
-    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
-        @csrf
+    <form id="logout-form" action="<?php echo e(route('admin.logout')); ?>" method="POST" class="d-none">
+        <?php echo csrf_field(); ?>
     </form>
 </div>
 <!-- /menu footer buttons -->
+<?php /**PATH C:\xampp\htdocs\green_glow\resources\views/admin/layouts/sidebar.blade.php ENDPATH**/ ?>

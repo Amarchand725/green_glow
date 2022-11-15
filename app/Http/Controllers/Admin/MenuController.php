@@ -165,6 +165,8 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $model)
     {
+        return $request;
+
         require base_path()."/crud-template/config.php";
 
         $this->validate($request, [
@@ -292,7 +294,7 @@ class MenuController extends Controller
             //delete views with all files
             $modelName = str_replace(' ', '', ucwords($model->menu)) ;
             $viewFolderName = Str::plural(str::lower($modelName));
-            $viewFolderPath = 'resources/views/'.$viewFolderName;
+            $viewFolderPath = 'resources/views/'.$model->menu_of.'/'.$viewFolderName;
             if (\File::exists($viewFolderPath)){
                 \File::deleteDirectory($viewFolderPath);
             }
@@ -307,8 +309,9 @@ class MenuController extends Controller
 
             //delete controller
             $modelName = str_replace(' ', '', ucwords($model->menu)) ;
+            $menu_of = str_replace(' ', '', ucwords($model->menu_of));
             $ControllerName = $modelName  ."Controller.php";
-            $controllerPath = base_path('app/Http/Controllers/').$ControllerName;
+            $controllerPath = base_path('app/Http/Controllers/').$menu_of.'/'.$ControllerName;
             if(file_exists($controllerPath)){
                 unlink($controllerPath);
             }
@@ -335,6 +338,8 @@ class MenuController extends Controller
 
     private function addEntryInRoutes($request){
         $controller_name = str_replace(' ', '', ucwords($request->menu)) ;
+        $men_of = str_replace(' ', '', ucwords($request->menu_of));
+        $controller_name = $men_of.$controller_name;
         $content = "Route::resource('". $request->url."', '". $controller_name ."Controller');";
         $myfile = fopen(ROUTES_FILE, "a") or die("Unable to open file!");
 
@@ -390,10 +395,13 @@ class MenuController extends Controller
     	$ControllerName = $modelName  ."Controller";
 
 		$viewFolderName = Str::plural(str_replace(' ', '_', strtolower($data->menu)));
+        $viewFolderName = $data->menu_of.'.'.$viewFolderName;
 
     	$root = base_path();
     	$templateFolder = $root ."/crud-template";
     	$newDir = CONTROLLER_PATH ;
+        $menu_of = str_replace(' ', '', ucwords($data->menu_of));
+        $newDir = $newDir.'/'.$menu_of;
 
     	$controllerFile = file_get_contents($templateFolder."/controller.php");
 
@@ -428,8 +436,8 @@ class MenuController extends Controller
                             '}';
         }
 
-
     	$str1 = str_replace('{modelName}', $modelName, $controllerFile);
+    	$str1 = str_replace('{menuof}', $menu_of, $str1);
     	$str1 = str_replace('{menuName}', $route_menu, $str1);
     	$str1 = str_replace('{viewFolderName}', $viewFolderName, $str1);
     	$str1 = str_replace('{ControllerName}', $ControllerName, $str1);
@@ -496,12 +504,11 @@ class MenuController extends Controller
         $modelName = str_replace(' ', '', ucwords($data->menu)) ;
 
         $viewFolderName =$table_name;
-        // $controller_name = $modelName  ."Controller";
 
     	$root = base_path();
     	$templateFolder = $root ."/crud-template";
     	$newDir = VIEW_PATH ;
-    	$newViewDir = $newDir ."/". $viewFolderName;
+    	$newViewDir = $newDir ."/".$data->menu_of.'/'.$viewFolderName;
 
     	$indexFile = file_get_contents($templateFolder."/templateViews/index.blade.php");
         $createFile = file_get_contents($templateFolder."/templateViews/create.blade.php");
@@ -525,17 +532,17 @@ class MenuController extends Controller
                 $type = explode('(', $value->Type);
                 $t_columns.='<th>'.Str::upper($value->Field).'</th>';
 
-                $form .= '<div class="form-group">' ."\n";
-                $edit_form .= '<div class="form-group">' ."\n";
+                $form .= '<div class="field item form-group">' ."\n";
+                $edit_form .= '<div class="field item form-group">' ."\n";
 
-                $form .= '<label for="'.$value->Field.'" class="col-sm-2 control-label">'.ucfirst($value->Field);
+                $form .= '<label for="'.$value->Field.'" class="col-form-label col-md-3 col-sm-3  label-align">'.ucfirst($value->Field);
                 if($value->Null=='NO'){
-                    $form .= ' <span style="color:red">*</span>';
+                    $form .= ' <span class="text-danger">*</span>';
                 }
 
                 $form .= '</label>' ."\n";
                 $bool = false;
-                $form .= '<div class="col-sm-8">';
+                $form .= '<div class="col-md-6 col-sm-6">';
                         if($type[0]=='text'){
                             $form .= '<textarea class="form-control ckeditor" id="'.$value->Field.'" name="'.$value->Field.'" placeholder="Enter '.$value->Field.'">{{ old("'.$value->Field.'") }}</textarea>'."\n";
                         }elseif($type[0]=='tinyint'){
@@ -563,23 +570,24 @@ class MenuController extends Controller
 
                 $form .= '</div>';
                 if($bool){
-                    $form .= '<div class="form-group">' ."\n";
-                    $form .= '<label for="'.$value->Field.'" class="col-sm-2 control-label">PREVIEW</label>' ."\n";
-                    $form .= '<div class="col-sm-8">';
+                    $form .= '<div class="field item form-group">' ."\n";
+                    $form .= '<label for="'.$value->Field.'" class="col-form-label col-md-3 col-sm-3  label-align">PREVIEW</label>' ."\n";
+                    $form .= '<div class="col-md-6 col-sm-6">';
                                 $default_image_path = "'public/default.png'";
                                 $form .= '<img src="{{ asset('.$default_image_path.') }}" id="preview"  width="100px" alt="">';
                                 $form .= '</div>';
                     $form .= '</div>';
                 }
 
-                $edit_form .= '<label for="'.$value->Field.'" class="col-sm-2 control-label">'.ucfirst($value->Field);
+                //Edit form
+                $edit_form .= '<label for="'.$value->Field.'" class="col-form-label col-md-3 col-sm-3  label-align">'.ucfirst($value->Field);
                 if($value->Null=='NO'){
-                    $edit_form .= '<span style="color:red">*</span>';
+                    $edit_form .= '<span style="text-danger">*</span>';
                 }
 
                 $edit_form .= '</label>' ."\n";
 
-                $edit_form .='<div class="col-sm-8">';
+                $edit_form .='<div class="col-md-6 col-sm-6">';
                         if($type[0]=='text'){
                             $edit_form .= '<textarea class="ckeditor form-control" id="'.$value->Field.'" name="'.$value->Field.'">{{ $model->'.$value->Field.' }}</textarea>'."\n";
                         }elseif($type[0]=='tinyint'){
@@ -604,16 +612,16 @@ class MenuController extends Controller
 
                 if($bool){
                     $edit_form .= '@if($model->'.$value->Field.')'.
-                                        '<div class="form-group">'.
-                                            '<label for="'.$value->Field.'" class="col-sm-2 control-label">Exit '.ucfirst($value->Field).' </label>'.
-                                            '<div class="col-sm-8">'.
+                                        '<div class="field item form-group">'.
+                                            '<label for="'.$value->Field.'" class="col-form-label col-md-3 col-sm-3  label-align">Exit '.ucfirst($value->Field).' </label>'.
+                                            '<div class="col-md-6 col-sm-6">'.
                                                 '<img src="{{ asset("public/admin/images/'.$table_name.'") }}/{{ $model->'.$value->Field.' }}" id="preview"  width="100px" alt="">'.
                                             '</div>'.
                                         '</div>'.
                                     '@else'.
-                                        '<div class="form-group">'.
-                                            '<label for="'.$value->Field.'" class="col-sm-2 control-label">Preview </label>'.
-                                            '<div class="col-sm-8">'.
+                                        '<div class="field item form-group">'.
+                                            '<label for="'.$value->Field.'" class="col-form-label col-md-3 col-sm-3  label-align">Preview </label>'.
+                                            '<div class="col-md-6 col-sm-6">'.
                                                 '<img src="{{ asset("public/default.png") }}" id="preview"  width="100px" alt="">'.
                                             '</div>'.
                                         '</div>'.
@@ -676,7 +684,7 @@ class MenuController extends Controller
                 '</td>';
 
 		$createForm = $form;
-        $createForm .= '<label for="" class="col-sm-2 control-label"></label>'."\n".
+        $createForm .= '<label for="" class="col-form-label col-md-3 col-sm-3  label-align"></label>'."\n".
                         '<div class="col-sm-6">'.
                             '<button type="submit" class="btn btn-success pull-left">Save</button>'.
                         '</div>';
@@ -687,7 +695,7 @@ class MenuController extends Controller
 		$createForm = str_replace('{page_title}', 'Add New '.$create_page_title, $createForm);
 
 		$updateForm = $edit_form;
-        $updateForm .= '<label for="" class="col-sm-2 control-label"></label>'."\n".
+        $updateForm .= '<label for="" class="col-form-label col-md-3 col-sm-3  label-align"></label>'."\n".
                         '<div class="col-sm-6">'.
                             '<button type="submit" class="btn btn-success pull-left">Save</button>'.
                         '</div>';

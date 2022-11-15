@@ -1,5 +1,6 @@
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\{menuof};
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\{modelName};

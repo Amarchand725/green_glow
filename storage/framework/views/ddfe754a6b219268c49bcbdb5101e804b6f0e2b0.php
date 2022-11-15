@@ -1,11 +1,9 @@
-@extends('admin.auth.layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="login_wrapper">
         <div class="animate form login_form">
         <section class="login_content">
-            <form action="{{ route('admin.login') }}" method="post">
-                @csrf
+            <form action="<?php echo e(route('admin.login')); ?>" method="post">
+                <?php echo csrf_field(); ?>
 
                 <h1>Login Form</h1>
                 <input type="hidden" name="user_type" value="admin">
@@ -27,20 +25,28 @@
                             </span>
                         </div>
                     </div>
-                    @error('password')
+                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <span class="invalid-feedback" role="alert">
-                            <strong style="color:red">{{ $message }}</strong>
+                            <strong style="color:red"><?php echo e($message); ?></strong>
                         </span>
-                    @enderror
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div>
                     <div class="field item form-group">
                         <div class="col-sm-12">
                             <button class="btn btn-info btn-sm" style="width:100%">Log in</button>
-                            <a class="reset_pass" href="{{ route('admin.forgot_password') }}">{{ __('Lost your password?') }}</a>
+                            <a class="reset_pass" href="<?php echo e(route('admin.forgot_password')); ?>"><?php echo e(__('Lost your password?')); ?></a>
                             <span class="reset_pass">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                {{ __('Remember Me') }}
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
+                                <?php echo e(__('Remember Me')); ?>
+
                             </span>
                         </div>
                     </div>
@@ -62,8 +68,8 @@
         </section>
         </div>
     </div>
-@endsection
-@push('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
     <script>
         function hideshow(){
             var password = document.getElementById("password1");
@@ -82,4 +88,6 @@
             }
         }
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.auth.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\green_glow\resources\views/admin/auth/login.blade.php ENDPATH**/ ?>
